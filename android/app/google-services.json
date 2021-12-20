@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "210492541384",
+    "project_id": "blockchain-ca3bc",
+    "storage_bucket": "blockchain-ca3bc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:210492541384:android:2a25f4883e3251a7a398fd",
+        "android_client_info": {
+          "package_name": "com.example.flutter_application_1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "210492541384-5kku4ijvf77djq8c3l5ev0qk1gv77i4l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC9IZQ81QsehvBjy8yrDNIExFbX-SiYBuc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "210492541384-5kku4ijvf77djq8c3l5ev0qk1gv77i4l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
