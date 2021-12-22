@@ -1,4 +1,3 @@
-import 'package:block_chain/UI/LoginSucess/login_sucess.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 signup(String email, String password) async {

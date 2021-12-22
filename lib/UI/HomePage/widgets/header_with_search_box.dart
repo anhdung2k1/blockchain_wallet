@@ -36,7 +36,7 @@ class HeaderWithSearchBox extends StatelessWidget {
                 const CircleAvatar(
                     radius: 30,
                     backgroundImage: NetworkImage(
-                        "https://scontent.fdad1-2.fna.fbcdn.net/v/t39.30808-6/240601223_2400388370093530_5908276801963571095_n.jpg?_nc_cat=105&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=MTenYRzZG08AX-QJpZI&_nc_ht=scontent.fdad1-2.fna&oh=00_AT8o8H2evaMX5uZz_VWgS2_qJmQu2U_8dHfI0mnVIf0Ncg&oe=61C003FD"))
+                        "https://images.unsplash.com/photo-1519865885898-a54a6f2c7eea?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=758&q=80"))
               ],
             ),
           ),

@@ -1,5 +1,6 @@
 import 'package:block_chain/constants/constants.dart';
 import 'package:block_chain/helper/keyboard.dart';
+import 'package:block_chain/widgets/show_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart';
@@ -18,8 +19,9 @@ class _WithDrawFormState extends State<WithDrawForm> {
   late Web3Client ethClient;
   late Client httpClient;
   final _formkey = GlobalKey<FormState>();
-  double myAmount = 0;
+  int myAmount = 0;
   String _address = "";
+  String txHash = "";
   final List<String> errors = [];
   @override
   void initState() {
@@ -49,17 +51,17 @@ class _WithDrawFormState extends State<WithDrawForm> {
     }
   }
 
-  Future<String> withdrawCoin() async {
-    var bigAmount = BigInt.from(myAmount);
-    EthereumAddress targetAddress = EthereumAddress.fromHex(_address);
-    var response = await submit("withdrawBalance", [targetAddress, bigAmount]);
+  Future<String> withdrawCoin(int amount) async {
+    var bigAmount = BigInt.from(amount);
+    var response = await submit("withdrawBalance", [bigAmount]);
     print("WithDrawn");
+    txHash = response;
     return response;
   }
 
   Future<DeployedContract> loadContract() async {
     String abi = await rootBundle.loadString("assets/json/abi.json");
-    String contractAddress = "0x989Cb4fFca8CBBF2EBb3DB138f0062cb35DfB950";
+    String contractAddress = contractadd;
 
     final contract = DeployedContract(ContractAbi.fromJson(abi, "PKCoin"),
         EthereumAddress.fromHex(contractAddress));
@@ -102,7 +104,16 @@ class _WithDrawFormState extends State<WithDrawForm> {
                     KeyboardUtil.hideKeyboard(context);
                   }
                   setState(() {
-                    withdrawCoin();
+                    withdrawCoin(myAmount);
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return ChoiceView(
+                              txhash: txHash,
+                              addressFrom: address,
+                              addressTo: _address,
+                              amount: myAmount);
+                        });
                   });
                 },
                 child: const Text(
@@ -126,7 +137,7 @@ class _WithDrawFormState extends State<WithDrawForm> {
   TextFormField buildICXFormField() {
     return TextFormField(
       controller: _EnterICX,
-      onSaved: (newValue) => myAmount = double.parse(newValue!),
+      onSaved: (dynamic newValue) => myAmount = int.parse(newValue),
       onChanged: (value) {
         if (value.isNotEmpty) {
           removeError(error: "Please Enter your ICX Value");

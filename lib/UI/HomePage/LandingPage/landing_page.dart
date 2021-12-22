@@ -4,8 +4,8 @@ import 'package:block_chain/UI/HomePage/Withdraw/withdraw.dart';
 import 'package:block_chain/UI/HomePage/widgets/header_with_search_box.dart';
 import 'package:block_chain/UI/HomePage/widgets/service_widget.dart';
 import 'package:block_chain/routes/routes.dart';
+import 'package:block_chain/widgets/build_copy.dart';
 import 'package:block_chain/widgets/navigation_drawer.dart';
-import 'package:clipboard/clipboard.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:block_chain/UI/HomePage/Screen/Apps/apps.dart';
 import 'package:flutter/material.dart';
@@ -29,15 +29,6 @@ class _LandingPageState extends State<LandingPage> {
       currentIndex = index;
     });
   }
-
-  Widget buildCopy(String text) => Builder(
-      builder: (context) => IconButton(
-          onPressed: () async {
-            await FlutterClipboard.copy(text);
-            Scaffold.of(context).showSnackBar(
-                const SnackBar(content: Text("Copied to ClipBoard")));
-          },
-          icon: const Icon(Icons.content_copy)));
 
   late Client httpClient;
   late Web3Client ethClient;
@@ -64,7 +55,7 @@ class _LandingPageState extends State<LandingPage> {
 
   Future<DeployedContract> loadContract() async {
     String abi = await rootBundle.loadString("assets/json/abi.json");
-    String contractAddress = "0x989Cb4fFca8CBBF2EBb3DB138f0062cb35DfB950";
+    String contractAddress = contractadd;
 
     final contract = DeployedContract(ContractAbi.fromJson(abi, "PKCoin"),
         EthereumAddress.fromHex(contractAddress));
@@ -425,7 +416,7 @@ class _LandingPageState extends State<LandingPage> {
                                         child: Wrap(
                                           children: [
                                             Text("Address: ${newAdress}"),
-                                            buildCopy(newAdress)
+                                            buildCopy(text: newAdress)
                                           ],
                                         ),
                                       ),

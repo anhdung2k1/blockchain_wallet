@@ -1,5 +1,6 @@
 import 'package:block_chain/constants/constants.dart';
 import 'package:block_chain/helper/keyboard.dart';
+import 'package:block_chain/widgets/show_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart';
@@ -18,9 +19,10 @@ class _TransferFormState extends State<TransferForm> {
   late Web3Client ethClient;
   late Client httpClient;
   final _formkey = GlobalKey<FormState>();
-  double myAmount = 0;
+  int myAmount = 0;
   String _address = "";
   final List<String> errors = [];
+  String txHash = '';
   @override
   void initState() {
     super.initState();
@@ -51,17 +53,18 @@ class _TransferFormState extends State<TransferForm> {
 
   Future<DeployedContract> loadContract() async {
     String abi = await rootBundle.loadString("assets/json/abi.json");
-    String contractAddress = "0x989Cb4fFca8CBBF2EBb3DB138f0062cb35DfB950";
+    String contractAddress = contractadd;
 
     final contract = DeployedContract(ContractAbi.fromJson(abi, "PKCoin"),
         EthereumAddress.fromHex(contractAddress));
     return contract;
   }
 
-  Future<String> sendCoin() async {
-    var bigAmount = BigInt.from(myAmount);
+  Future<String> sendCoin(int amount) async {
+    var bigAmount = BigInt.from(amount);
     var response = await submit("depositBalance", [bigAmount]);
     print("Deposited");
+    txHash = response;
     return response;
   }
 
@@ -101,7 +104,16 @@ class _TransferFormState extends State<TransferForm> {
                     KeyboardUtil.hideKeyboard(context);
                   }
                   setState(() {
-                    sendCoin();
+                    sendCoin(myAmount);
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return ChoiceView(
+                              txhash: txHash,
+                              addressFrom: address,
+                              addressTo: _address,
+                              amount: myAmount);
+                        });
                   });
                 },
                 child: const Text(
@@ -125,7 +137,7 @@ class _TransferFormState extends State<TransferForm> {
   TextFormField buildICXFormField() {
     return TextFormField(
       controller: _EnterICX,
-      onSaved: (newValue) => myAmount = double.parse(newValue!),
+      onSaved: (dynamic newValue) => myAmount = int.parse(newValue),
       onChanged: (value) {
         if (value.isNotEmpty) {
           removeError(error: "Please Enter your ICX Value");
